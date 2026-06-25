@@ -29,23 +29,6 @@ const projects = [
   },
 ];
 
-const posts = [
-  {
-    date: '2026-06-12',
-    title: 'What makes an AI feature survive first contact with users',
-    href: '#',
-  },
-  {
-    date: '2026-05-02',
-    title: 'RAG is easy to demo and hard to make trustworthy',
-    href: '#',
-  },
-  {
-    date: '2026-03-18',
-    title: 'Shipping agents means designing for failure, not just intelligence',
-    href: '#',
-  },
-];
 ---
 
 <!doctype html>
@@ -109,15 +92,7 @@ const posts = [
         <p class="section-intro">
           Notes on AI systems, engineering judgment, product tradeoffs, and what breaks once real users show up.
         </p>
-        <ul class="posts">
-          {posts.map((post) => (
-            <li>
-              <time>{post.date}</time>
-              <a href={post.href}>{post.title}</a>
-            </li>
-          ))}
-        </ul>
-        <p class="rss"><a href="#">[rss]</a></p>
+        <p class="empty-state">Notes coming soon.</p>
       </section>
 
       <section>
@@ -399,30 +374,9 @@ const posts = [
     font-size: 13px;
   }
 
-  /* posts */
-  .posts {
-    list-style: none;
+  .empty-state {
+    color: var(--muted);
     margin: 0;
-    padding: 0;
-  }
-
-  .posts li {
-    display: flex;
-    gap: 24px;
-    padding: 10px 0;
-    align-items: baseline;
-  }
-
-  .posts time {
-    color: var(--muted);
-    font-size: 13px;
-    flex: 0 0 100px;
-  }
-
-  .rss {
-    margin-top: 24px;
-    color: var(--muted);
-    font-size: 13px;
   }
 
   /* contact */
@@ -463,13 +417,5 @@ const posts = [
       font-size: 34px;
     }
 
-    .posts li {
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .posts time {
-      flex: auto;
-    }
   }
 </style>
