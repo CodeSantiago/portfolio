@@ -1,0 +1,475 @@
+---
+const nav = [
+  { href: '#portfolio', label: 'portfolio' },
+  { href: '#blog', label: 'blog' },
+  { href: '#contact', label: 'contact' },
+];
+
+const projects = [
+  {
+    name: 'Kore Agent',
+    blurb: 'AI-powered customer service platform for multi-tenant, multi-channel support across WhatsApp, Telegram, and web.',
+    year: '2026',
+    link: '#',
+    stack: 'Python 3.11, FastAPI, SQLAlchemy, PostgreSQL, Redis, React, Vite, OpenRouter, Docker',
+  },
+  {
+    name: 'Production Agent',
+    blurb: 'Automated WhatsApp booking assistant for real-time scheduling, rescheduling, and cancellations with production-safe conversation handling.',
+    year: '2026',
+    link: '#',
+    stack: 'Python, FastAPI, Redis, Google Sheets API, Groq LLM API, asyncio, REST APIs, webhooks',
+  },
+  {
+    name: 'RAG PetroQuery',
+    blurb: 'Industrial RAG system for technical question answering in Oil & Gas workflows with grounded answers and safety-oriented validation.',
+    year: '2026',
+    link: '#',
+    stack: 'FastAPI, Next.js, PostgreSQL, pgvector, hybrid search, reranking, structured output, validation layers',
+  },
+];
+
+const posts = [
+  {
+    date: '2026-06-12',
+    title: 'What makes an AI feature survive first contact with users',
+    href: '#',
+  },
+  {
+    date: '2026-05-02',
+    title: 'RAG is easy to demo and hard to make trustworthy',
+    href: '#',
+  },
+  {
+    date: '2026-03-18',
+    title: 'Shipping agents means designing for failure, not just intelligence',
+    href: '#',
+  },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="AI engineer building applied AI systems with product sense, engineering rigor, and startup speed." />
+    <title>ai engineer</title>
+  </head>
+  <body>
+    <header class="topbar">
+      <a href="#top" class="brand">CodeSantiago</a>
+      <nav>
+        <ul>
+          {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+        </ul>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <p class="eyebrow">ai engineer</p>
+        <h1>
+          <span id="name-trigger" class="name-trigger" role="button" tabindex="0" aria-label="Trigger name easter egg">
+            Santiago Lopez
+          </span>
+        </h1>
+        <p class="tagline">AI engineer building agents, retrieval systems, and internal tools that move from prototype to production.</p>
+        <p class="lede">
+          I build applied AI systems for real workflows: agents, retrieval, internal tools, and automation.
+        </p>
+        <ul class="signal-list">
+          <li>agents with tools, memory, and guardrails</li>
+          <li>retrieval and knowledge systems for real teams</li>
+          <li>product engineering with strong technical taste</li>
+        </ul>
+        <p class="meta">available for high-leverage ai engineering work.</p>
+      </section>
+
+      <section>
+        <h2 id="portfolio">/portfolio</h2>
+        <p class="section-intro">
+          Selected work across applied AI, backend systems, and product delivery.
+          The common thread is simple: useful software, shipped with constraints in mind.
+        </p>
+        <ul class="projects">
+          {projects.map((p) => (
+            <li>
+              <a class="project-name" href={p.link}>{p.name}/</a>
+              <span class="project-year">{p.year}</span>
+              <p class="project-blurb">{p.blurb}</p>
+              <p class="project-stack">{p.stack}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section>
+        <h2 id="blog">/blog</h2>
+        <p class="section-intro">
+          Notes on AI systems, engineering judgment, product tradeoffs, and what breaks once real users show up.
+        </p>
+        <ul class="posts">
+          {posts.map((post) => (
+            <li>
+              <time>{post.date}</time>
+              <a href={post.href}>{post.title}</a>
+            </li>
+          ))}
+        </ul>
+        <p class="rss"><a href="#">[rss]</a></p>
+      </section>
+
+      <section>
+        <h2 id="contact">/contact</h2>
+        <p class="section-intro">
+          If you are building something ambitious in AI and need an engineer who can move between model behavior, systems design, and shipped product, reach out.
+        </p>
+        <ul class="contact">
+          <li>email &mdash; <a href="mailto:hellocodesantiago@gmail.com">hellocodesantiago@gmail.com</a></li>
+          <li>github &mdash; <a href="https://github.com/CodeSantiago">github.com/CodeSantiago</a></li>
+          <li>linkedin &mdash; <a href="https://www.linkedin.com/in/santiago-tomas-lopez-54195a26a">linkedin.com/in/santiago-tomas-lopez-54195a26a</a></li>
+        </ul>
+        <p class="footer">
+          <span>&copy; 2026</span>
+          <span class="dot">&middot;</span>
+          <span>built with astro</span>
+          <span class="dot">&middot;</span>
+          <span>last updated 2026-06-24</span>
+        </p>
+      </section>
+    </main>
+    <script>
+      const trigger = document.querySelector('#name-trigger');
+
+      if (trigger instanceof HTMLElement) {
+        let active = false;
+
+        const play = () => {
+          if (active) return;
+          active = true;
+          trigger.classList.remove('is-shining');
+          window.requestAnimationFrame(() => {
+            trigger.classList.add('is-shining');
+          });
+
+          window.setTimeout(() => {
+            trigger.classList.remove('is-shining');
+            active = false;
+          }, 900);
+        };
+
+        trigger.addEventListener('click', play);
+        trigger.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            play();
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
+
+<style>
+  :root {
+    --bg: #000000;
+    --fg: #d6d6d6;
+    --muted: #6a6a6a;
+    --dim: #3a3a3a;
+    --accent: #e0e0e0;
+    --link: #b8b8b8;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+      "Liberation Mono", monospace;
+    font-size: 15px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a {
+    color: var(--link);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--dim);
+  }
+
+  a:hover {
+    color: var(--accent);
+    border-bottom-color: var(--fg);
+  }
+
+  /* layout */
+  main {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 64px 24px 96px;
+  }
+
+  section {
+    margin-top: 88px;
+  }
+
+  /* topbar */
+  .topbar {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 24px 24px 0;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .brand {
+    color: var(--fg);
+    border-bottom: none;
+  }
+
+  .topbar nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+  }
+
+  .topbar nav a {
+    border-bottom: none;
+  }
+
+  /* hero */
+  .hero h1 {
+    font-size: 44px;
+    font-weight: 500;
+    line-height: 1.15;
+    margin: 0 0 18px;
+    letter-spacing: -0.01em;
+    max-width: 13ch;
+  }
+
+  .name-trigger {
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+    letter-spacing: inherit;
+    line-height: inherit;
+    display: inline-block;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  .name-trigger:hover,
+  .name-trigger:focus-visible {
+    color: var(--accent);
+    outline: none;
+  }
+
+  .name-trigger.is-shining {
+    animation: subtle-name-shine 820ms ease-out forwards;
+  }
+
+  @keyframes subtle-name-shine {
+    0% {
+      color: var(--fg);
+      text-shadow: none;
+    }
+
+    35% {
+      color: #ffffff;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.18);
+    }
+
+    100% {
+      color: var(--fg);
+      text-shadow: none;
+    }
+  }
+
+  .eyebrow {
+    color: var(--muted);
+    margin: 0 0 22px;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: lowercase;
+  }
+
+  .tagline {
+    color: var(--muted);
+    margin: 0 0 24px;
+    max-width: 62ch;
+  }
+
+  .lede {
+    margin: 0 0 16px;
+    color: var(--fg);
+    max-width: 56ch;
+  }
+
+  .meta {
+    color: var(--muted);
+    margin: 0;
+    font-size: 14px;
+  }
+
+  .signal-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 24px;
+  }
+
+  .signal-list li {
+    color: var(--fg);
+    padding: 4px 0;
+  }
+
+  .signal-list li::before {
+    content: '- ';
+    color: var(--dim);
+  }
+
+  .dot {
+    margin: 0 8px;
+    color: var(--dim);
+  }
+
+  /* section heads */
+  h2 {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--muted);
+    margin: 0 0 24px;
+    letter-spacing: 0.02em;
+  }
+
+  .section-intro {
+    margin: 0 0 22px;
+    color: var(--muted);
+    max-width: 62ch;
+  }
+
+  /* projects */
+  .projects {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .projects li {
+    padding: 18px 0;
+    border-top: 1px solid var(--dim);
+  }
+
+  .projects li:last-child {
+    border-bottom: 1px solid var(--dim);
+  }
+
+  .project-name {
+    color: var(--fg);
+    border-bottom: none;
+  }
+
+  .project-year {
+    color: var(--muted);
+    margin-left: 12px;
+    font-size: 13px;
+  }
+
+  .project-blurb {
+    margin: 6px 0 0;
+    color: var(--muted);
+    max-width: 60ch;
+  }
+
+  .project-stack {
+    margin: 8px 0 0;
+    color: var(--dim);
+    max-width: 60ch;
+    font-size: 13px;
+  }
+
+  /* posts */
+  .posts {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .posts li {
+    display: flex;
+    gap: 24px;
+    padding: 10px 0;
+    align-items: baseline;
+  }
+
+  .posts time {
+    color: var(--muted);
+    font-size: 13px;
+    flex: 0 0 100px;
+  }
+
+  .rss {
+    margin-top: 24px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  /* contact */
+  .contact {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .contact li {
+    padding: 6px 0;
+  }
+
+  .footer {
+    margin-top: 72px;
+    color: var(--dim);
+    font-size: 13px;
+  }
+
+  @media (max-width: 720px) {
+    main {
+      padding-top: 48px;
+    }
+
+    section {
+      margin-top: 72px;
+    }
+
+    .topbar {
+      padding-top: 20px;
+    }
+
+    .topbar nav ul {
+      gap: 14px;
+    }
+
+    .hero h1 {
+      font-size: 34px;
+    }
+
+    .posts li {
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .posts time {
+      flex: auto;
+    }
+  }
+</style>
