@@ -33,7 +33,7 @@ const projects = [
     repo: '#',
     stack: 'Python 3.11, FastAPI, SQLAlchemy, PostgreSQL, Redis, React, Vite, OpenRouter, Docker',
     details:
-      'Multi-tenant agent platform for customer-facing support workflows: channel orchestration, conversation memory, and guardrails — evolving a system already validated in production.',
+      'Multi-tenant agent platform for customer-facing support workflows: channel orchestration, conversation memory, and guardrails — evolving a system already validated in production. Repo is private due to client contract; architecture and key decisions shown in Schedule Agent repo.',
     highlights: [
       'Multi-tenant by design: isolated configuration, channels, and data per client on PostgreSQL + SQLAlchemy.',
       'Provider-agnostic LLM layer through OpenRouter, so model choice is a config decision, not a rewrite.',
@@ -86,7 +86,7 @@ const projects = [
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="description" content="AI engineer building applied AI systems with product sense, engineering rigor, and startup speed." />
+    <meta name="description" content="AI engineer building agents, retrieval systems, and internal tools that move from prototype to production — one already serving ~500 monthly users." />
     <title>Santiago Lopez — AI Engineer</title>
   </head>
   <body>
@@ -107,17 +107,13 @@ const projects = [
             Santiago Lopez
           </span>
         </h1>
-        <p class="tagline">AI engineer building agents, retrieval systems, and internal tools that move from prototype to production.</p>
-        <p class="lede">
-          I build applied AI systems for real workflows: agents, retrieval, internal tools, and automation.
-        </p>
+        <p class="tagline">AI engineer building agents, retrieval systems, and internal tools that move from prototype to production — one already serving ~500 monthly users in production.</p>
         <ul class="signal-list">
           <li>agents with tools, memory, and guardrails</li>
           <li>retrieval and knowledge systems for real teams</li>
           <li>product engineering with strong technical taste</li>
         </ul>
         <p class="meta">available for high-leverage ai engineering work.</p>
-        <p class="meta proof">proof: a booking agent i built serves ~500 monthly users in production.</p>
       </section>
 
       <section>
@@ -379,21 +375,10 @@ const projects = [
     max-width: 62ch;
   }
 
-  .lede {
-    margin: 0 0 16px;
-    color: var(--fg);
-    max-width: 56ch;
-  }
-
   .meta {
     color: var(--muted);
     margin: 0;
     font-size: 14px;
-  }
-
-  .meta.proof {
-    margin-top: 6px;
-    color: var(--fg);
   }
 
   .signal-list {
