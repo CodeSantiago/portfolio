@@ -13,7 +13,7 @@ const projects = [
     year: '2025',
     status: 'in production · ~500 monthly users',
     link: '#',
-    repo: 'https://github.com/CodeSantiago/Schedule_agent',
+    repo: '',
     stack: 'Python, FastAPI, Redis, Google Sheets API, Groq LLM API, asyncio, REST APIs, webhooks',
     details:
       'Built for production constraints, not demos: real-time availability, safe rescheduling flows, cancellation handling, and WhatsApp-first interaction for non-technical users.',
@@ -101,7 +101,6 @@ const projects = [
 
     <main id="top">
       <section class="hero">
-        <p class="eyebrow">ai engineer</p>
         <h1>
           <span id="name-trigger" class="name-trigger" role="button" tabindex="0" aria-label="Trigger name easter egg">
             Santiago Lopez
@@ -149,7 +148,7 @@ const projects = [
                 <ul class="project-highlights">
                   {p.highlights.map((h) => <li>{h}</li>)}
                 </ul>
-                <a class="project-link" href={p.repo}>code →</a>
+                {p.repo && <a class="project-link" href={p.repo}>code →</a>}
               </div>
             </li>
           ))}
