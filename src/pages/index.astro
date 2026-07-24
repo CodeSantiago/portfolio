@@ -7,25 +7,74 @@ const nav = [
 
 const projects = [
   {
-    name: 'Kore Agent',
-    blurb: 'AI-powered customer service platform for multi-tenant, multi-channel support across WhatsApp, Telegram, and web.',
-    year: '2026',
+    name: 'Production Agent',
+    blurb:
+      'Booking businesses lose customers when nobody answers WhatsApp after hours. This assistant schedules, reschedules, and cancels appointments in real time — and has been doing it for ~500 monthly users.',
+    year: '2025',
+    status: 'in production · ~500 monthly users',
     link: '#',
-    stack: 'Python 3.11, FastAPI, SQLAlchemy, PostgreSQL, Redis, React, Vite, OpenRouter, Docker',
+    repo: 'https://github.com/CodeSantiago/Schedule_agent',
+    stack: 'Python, FastAPI, Redis, Google Sheets API, Groq LLM API, asyncio, REST APIs, webhooks',
+    details:
+      'Built for production constraints, not demos: real-time availability, safe rescheduling flows, cancellation handling, and WhatsApp-first interaction for non-technical users.',
+    highlights: [
+      'Runs in production serving ~500 monthly users over WhatsApp.',
+      'Google Sheets as the availability backend, so the business keeps managing its schedule in a tool it already knows.',
+      'Redis-backed conversation state with strict flow handling, so the LLM never freestyles with a real booking.',
+    ],
   },
   {
-    name: 'Production Agent',
-    blurb: 'Automated WhatsApp booking assistant for real-time scheduling, rescheduling, and cancellations with production-safe conversation handling.',
+    name: 'Kore Agent',
+    blurb:
+      'Production Agent proved the model with one business. Kore is the next step: the same agent core, generalized into a multi-tenant platform serving WhatsApp, Telegram, and web from a single codebase.',
     year: '2026',
+    status: 'in active development',
     link: '#',
-    stack: 'Python, FastAPI, Redis, Google Sheets API, Groq LLM API, asyncio, REST APIs, webhooks',
+    repo: '#',
+    stack: 'Python 3.11, FastAPI, SQLAlchemy, PostgreSQL, Redis, React, Vite, OpenRouter, Docker',
+    details:
+      'Multi-tenant agent platform for customer-facing support workflows: channel orchestration, conversation memory, and guardrails — evolving a system already validated in production.',
+    highlights: [
+      'Multi-tenant by design: isolated configuration, channels, and data per client on PostgreSQL + SQLAlchemy.',
+      'Provider-agnostic LLM layer through OpenRouter, so model choice is a config decision, not a rewrite.',
+      'Grows out of Production Agent rather than a blank slate — the architecture answers problems already seen with real users.',
+    ],
   },
   {
     name: 'RAG PetroQuery',
-    blurb: 'Industrial RAG system for technical question answering in Oil & Gas workflows with grounded answers and safety-oriented validation.',
+    blurb:
+      'Field engineers in Vaca Muerta need instant answers from dense drilling manuals — and a hallucinated pressure rating is not an option. A RAG pipeline that answers with citations, validated numbers, and a full audit trail.',
     year: '2026',
+    status: 'technical demo',
     link: '#',
-    stack: 'FastAPI, Next.js, PostgreSQL, pgvector, hybrid search, reranking, structured output, validation layers',
+    repo: 'https://github.com/CodeSantiago/petroquery',
+    stack: 'FastAPI, SQLAlchemy 2.0 (async), Pydantic, Instructor, Next.js, PostgreSQL 16 + pgvector, Groq, multilingual-e5-large, Docker, pytest',
+    details:
+      'Built to prove that RAG for safety-critical industry is not a chatbot with a vector store: a six-stage typed pipeline — classification, hybrid retrieval, reranking, schema-enforced generation, numeric validation, and safety overlays.',
+    highlights: [
+      'Numeric validation cross-checks every figure against retrieved chunks — the system abstains rather than inventing a spec.',
+      '4-level traceability (document → page → section → table/figure), as required by Argentine IAPG regulations.',
+      'Hybrid retrieval: e5-large vectors + PostgreSQL FTS fused with RRF, then cross-encoder reranking — built for Spanish prose mixed with English acronyms (BOP, H2S, PPE).',
+      'Structured generation via Instructor + Pydantic: the LLM cannot return malformed output.',
+    ],
+  },
+  {
+    name: 'AeroScan-ESG',
+    blurb:
+      'Satellite methane monitoring over the Neuquina basin (Neuquén, Río Negro, Mendoza, La Pampa) using Sentinel-5P data — anomaly detection with configurable sensitivity for ESG compliance.',
+    year: '2026',
+    status: 'technical demo',
+    link: 'https://aero-scan-esg.vercel.app',
+    repo: 'https://github.com/CodeSantiago/AeroScan-ESG',
+    stack: 'FastAPI, React, Vite, Leaflet, SQLite, Sentinel-5P CH4 (Copernicus)',
+    details:
+      'A full-stack geospatial dashboard for methane leak detection from satellite data. Ingests daily Sentinel-5P CH4 files, computes anomaly thresholds (1σ/2σ/3σ), and renders an interactive map with alert zones and 7-day trend charts.',
+    highlights: [
+      'Real satellite data pipeline: automated Sentinel-5P download, NetCDF parsing, and daily methane column storage in SQLite.',
+      'Configurable sensitivity via sigma slider — users tune false-positive vs false-negative tradeoff for their compliance threshold.',
+      'Interactive map with vector/satellite basemaps, color-coded alert zones (yellow/orange/red), and CSV/PDF report export.',
+      'Deployed on Vercel (frontend) + Render (backend API) — real production deployment for a technical demo.',
+    ],
   },
 ];
 
@@ -36,8 +85,9 @@ const projects = [
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="description" content="AI engineer building applied AI systems with product sense, engineering rigor, and startup speed." />
-    <title>ai engineer</title>
+    <title>Santiago Lopez — AI Engineer</title>
   </head>
   <body>
     <header class="topbar">
@@ -67,6 +117,7 @@ const projects = [
           <li>product engineering with strong technical taste</li>
         </ul>
         <p class="meta">available for high-leverage ai engineering work.</p>
+        <p class="meta proof">proof: a booking agent i built serves ~500 monthly users in production.</p>
       </section>
 
       <section>
@@ -76,12 +127,34 @@ const projects = [
           The common thread is simple: useful software, shipped with constraints in mind.
         </p>
         <ul class="projects">
-          {projects.map((p) => (
+          {projects.map((p, index) => (
             <li>
-              <a class="project-name" href={p.link}>{p.name}/</a>
-              <span class="project-year">{p.year}</span>
+              <div class="project-heading">
+                <div>
+                  <a class="project-name" href={p.link}>{p.name}/</a>
+                  <span class="project-year">{p.year}</span>
+                  <span class="project-status">{p.status}</span>
+                </div>
+                <button
+                  class="project-info-trigger"
+                  type="button"
+                  aria-expanded="false"
+                  aria-controls={`project-details-${index}`}
+                  data-project-trigger
+                >
+                  ···
+                  <span class="sr-only">Show more about {p.name}</span>
+                </button>
+              </div>
               <p class="project-blurb">{p.blurb}</p>
               <p class="project-stack">{p.stack}</p>
+<div class="project-details" id={`project-details-${index}`} hidden>
+                <p>{p.details}</p>
+                <ul class="project-highlights">
+                  {p.highlights.map((h) => <li>{h}</li>)}
+                </ul>
+                <a class="project-link" href={p.repo}>code →</a>
+              </div>
             </li>
           ))}
         </ul>
@@ -110,7 +183,7 @@ const projects = [
           <span class="dot">&middot;</span>
           <span>built with astro</span>
           <span class="dot">&middot;</span>
-          <span>last updated 2026-06-24</span>
+          <span>last updated 2026-07-22</span>
         </p>
       </section>
     </main>
@@ -142,6 +215,26 @@ const projects = [
           }
         });
       }
+
+      const projectTriggers = document.querySelectorAll('[data-project-trigger]');
+
+      projectTriggers.forEach((button) => {
+        if (!(button instanceof HTMLButtonElement)) return;
+
+        button.addEventListener('click', () => {
+          const detailsId = button.getAttribute('aria-controls');
+          if (!detailsId) return;
+
+          const details = document.getElementById(detailsId);
+          if (!(details instanceof HTMLElement)) return;
+
+          const isOpen = button.getAttribute('aria-expanded') === 'true';
+          button.setAttribute('aria-expanded', String(!isOpen));
+          button.classList.toggle('is-open', !isOpen);
+          button.firstChild?.replaceWith(!isOpen ? '—' : '···');
+          details.hidden = isOpen;
+        });
+      });
     </script>
   </body>
 </html>
@@ -298,6 +391,11 @@ const projects = [
     font-size: 14px;
   }
 
+  .meta.proof {
+    margin-top: 6px;
+    color: var(--fg);
+  }
+
   .signal-list {
     list-style: none;
     padding: 0;
@@ -355,10 +453,47 @@ const projects = [
     border-bottom: none;
   }
 
+  .project-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .project-info-trigger {
+    min-width: 32px;
+    height: 24px;
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    font: inherit;
+    font-size: 16px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+  }
+
+  .project-info-trigger:hover,
+  .project-info-trigger:focus-visible,
+  .project-info-trigger.is-open {
+    color: var(--fg);
+    outline: none;
+  }
+
   .project-year {
     color: var(--muted);
     margin-left: 12px;
     font-size: 13px;
+  }
+
+  .project-status {
+    display: block;
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 2px;
   }
 
   .project-blurb {
@@ -372,6 +507,62 @@ const projects = [
     color: var(--dim);
     max-width: 60ch;
     font-size: 13px;
+  }
+
+.project-details {
+    margin-top: 16px;
+    padding: 16px;
+    border: 1px solid var(--dim);
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .project-details[hidden] {
+    display: none;
+  }
+
+  .project-details p {
+    margin: 0;
+    color: var(--fg);
+  }
+
+  .project-highlights {
+    list-style: none;
+    margin: 12px 0 0;
+    padding: 0;
+  }
+
+  .project-highlights li {
+    color: var(--fg);
+    padding: 4px 0;
+  }
+
+  .project-highlights li::before {
+    content: '- ';
+    color: var(--dim);
+  }
+
+  .project-link {
+    display: inline-block;
+    margin-top: 16px;
+    color: var(--link);
+    border-bottom: 1px dotted var(--dim);
+  }
+
+  .project-link:hover {
+    color: var(--accent);
+    border-bottom-color: var(--fg);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
   }
 
   .empty-state {
@@ -396,7 +587,7 @@ const projects = [
     font-size: 13px;
   }
 
-  @media (max-width: 720px) {
+@media (max-width: 720px) {
     main {
       padding-top: 48px;
     }
@@ -416,6 +607,5 @@ const projects = [
     .hero h1 {
       font-size: 34px;
     }
-
   }
 </style>
