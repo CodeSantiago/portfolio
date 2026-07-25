@@ -1,4 +1,6 @@
 ---
+import Analytics from '@vercel/analytics/astro';
+
 const nav = [
   { href: '#portfolio', label: 'portfolio' },
   { href: '#blog', label: 'blog' },
@@ -89,6 +91,7 @@ const projects = [
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="description" content="AI engineer building agents, retrieval systems, and internal tools that move from prototype to production — one already serving ~500 monthly users." />
     <title>Santiago Lopez — AI Engineer</title>
+    <Analytics />
   </head>
   <body>
     <header class="topbar">
