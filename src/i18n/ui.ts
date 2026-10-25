@@ -31,7 +31,7 @@ export const UI = {
     },
     home: {
       lead: 'Most demos break the moment real users show up.',
-      bio: "I'm Santiago, an AI engineer. I build practical AI tools for people and teams.",
+      bio: 'I enjoy turning complex ideas into useful tools for people and teams.',
       socialLinks: 'Social and contact links',
       currentlyReading: 'Currently Reading',
       hallOfFameReading: 'Hall of Fame Reading',
@@ -142,7 +142,7 @@ export const UI = {
     },
     home: {
       lead: 'La mayoría de las demos se rompen apenas llegan usuarios reales.',
-      bio: 'Soy Santiago, ingeniero de IA. Construyo herramientas prácticas de IA para personas y equipos.',
+      bio: 'Me gusta convertir ideas complejas en herramientas útiles para personas y equipos.',
       socialLinks: 'Redes y contacto',
       currentlyReading: 'Leyendo Ahora',
       hallOfFameReading: 'Lecturas Clave',
