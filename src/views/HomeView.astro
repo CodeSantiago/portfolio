@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import HeroOrbit from '../components/HeroOrbit.astro';
+import HeroFlow from '../components/HeroFlow.astro';
 import { SITE } from '../consts';
 import { localizePath, useTranslations, type Lang } from '../i18n/ui';
 import { cleanSlug, getProjects } from '../lib/content';
@@ -18,7 +18,7 @@ const current = projects.filter((p) => p.data.current);
 
 <BaseLayout lang={lang}>
   <div class="home-layout">
-    <HeroOrbit />
+    <HeroFlow />
     <div class="home-main">
       <section class="hero-intro">
         <div class="hero-header">

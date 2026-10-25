@@ -437,61 +437,6 @@ main.editorial-hero-main {
   height: 100%;
 }
 
-.hero-orbit {
-  position: absolute;
-  top: 4rem;
-  right: 0;
-  z-index: 0;
-  width: clamp(22rem, 35vw, 34rem);
-  aspect-ratio: 1;
-  opacity: 0.68;
-  pointer-events: none;
-}
-
-.hero-orbit svg {
-  display: block;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-
-.hero-orbit-ring {
-  stroke: var(--border-strong);
-  stroke-width: 1.1;
-  opacity: 0.72;
-}
-
-.hero-orbit-ring-dashed {
-  stroke-dasharray: 2 8;
-}
-
-.hero-orbit-center {
-  fill: var(--accent-deco);
-  opacity: 0.78;
-}
-
-.hero-orbit-satellite {
-  transform-box: view-box;
-  transform-origin: center;
-  animation: hero-orbit-rotation 32s linear infinite;
-}
-
-.hero-orbit-satellite circle {
-  fill: var(--accent);
-  filter: drop-shadow(0 0 5px var(--accent-soft));
-}
-
-.hero-orbit-node {
-  fill: var(--info);
-  opacity: 0.65;
-}
-
-@keyframes hero-orbit-rotation {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 .hero-header {
   margin-bottom: 1.8rem;
 }
@@ -618,10 +563,6 @@ main.editorial-hero-main {
   .social-bar {
     gap: 1rem;
     margin-top: 3rem;
-  }
-
-  .hero-orbit {
-    display: none;
   }
 }
 
@@ -1812,9 +1753,5 @@ a.contact-value:hover {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-  }
-
-  .hero-orbit-satellite {
-    animation: none;
   }
 }
