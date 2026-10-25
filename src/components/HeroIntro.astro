@@ -1,7 +1,6 @@
 ---
 import { SITE, SOCIALS } from '../consts';
-import { localizePath, useTranslations, type Lang } from '../i18n/ui';
-import { cleanSlug, getProjects } from '../lib/content';
+import { useTranslations, type Lang } from '../i18n/ui';
 
 interface Props {
   lang: Lang;
@@ -9,8 +8,6 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
-const projects = await getProjects(lang);
-const current = projects.filter((p) => p.data.current);
 ---
 
 <div class="home-main">
@@ -21,12 +18,6 @@ const current = projects.filter((p) => p.data.current);
 
     <div class="hero-code">
       <p class="hero-code-line hero-bio">{t.home.bio}</p>
-
-      {
-        current.length > 0 && (
-          <p class="hero-code-line hero-currently"><span class="syntax-tag">&lt;output</span><span class="syntax-attribute"> name</span><span class="syntax-punctuation">=</span><span class="syntax-string">"currently"</span><span class="syntax-tag">&gt;</span>{current.map((p, index) => (<span class="hero-current-item">{index > 0 && <span class="syntax-copy">, </span>}<a href={`${localizePath('/projects', lang)}#${cleanSlug(p.id)}`}>{p.data.title}</a></span>))}<span class="syntax-tag">&lt;/output&gt;</span></p>
-        )
-      }
     </div>
 
     <div class="social-bar" aria-label={t.home.socialLinks}>

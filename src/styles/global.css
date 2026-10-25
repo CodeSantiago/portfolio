@@ -469,36 +469,6 @@ main.editorial-hero-main {
   max-width: 88ch;
 }
 
-.hero-currently {
-  margin-top: 0.5rem;
-}
-
-.syntax-tag {
-  color: var(--info);
-}
-
-.syntax-attribute {
-  color: var(--accent);
-}
-
-.syntax-punctuation {
-  color: var(--muted);
-}
-
-.syntax-string {
-  color: var(--status-demo-fg);
-}
-
-.hero-current-item a {
-  color: var(--fg);
-  border-bottom: 1px solid transparent;
-}
-
-.hero-current-item a:hover {
-  color: var(--accent);
-  border-bottom-color: var(--accent);
-}
-
 .social-bar {
   display: flex;
   flex-wrap: wrap;
