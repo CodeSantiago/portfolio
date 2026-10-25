@@ -1,0 +1,48 @@
+---
+import { SITE, SOCIALS } from '../consts';
+import { localizePath, useTranslations, type Lang } from '../i18n/ui';
+import { cleanSlug, getProjects } from '../lib/content';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const projects = await getProjects(lang);
+const current = projects.filter((p) => p.data.current);
+---
+
+<div class="home-main">
+  <section class="hero-intro">
+    <div class="hero-header">
+      <h1 class="hero-name">{SITE.name}</h1>
+    </div>
+
+    <div class="hero-code">
+      <p class="hero-code-line hero-bio">{t.home.bio}</p>
+
+      {
+        current.length > 0 && (
+          <p class="hero-code-line hero-currently"><span class="syntax-tag">&lt;output</span><span class="syntax-attribute"> name</span><span class="syntax-punctuation">=</span><span class="syntax-string">"currently"</span><span class="syntax-tag">&gt;</span>{current.map((p, index) => (<span class="hero-current-item">{index > 0 && <span class="syntax-copy">, </span>}<a href={`${localizePath('/projects', lang)}#${cleanSlug(p.id)}`}>{p.data.title}</a></span>))}<span class="syntax-tag">&lt;/output&gt;</span></p>
+        )
+      }
+    </div>
+
+    <div class="social-bar" aria-label={t.home.socialLinks}>
+      {
+        SOCIALS.map((social) => (
+          <a
+            href={social.href}
+            class="icon-btn"
+            target={social.href.startsWith('http') ? '_blank' : undefined}
+            rel="noreferrer"
+          >
+            <span>{social.label}</span>
+            <span aria-hidden="true">↗</span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</div>

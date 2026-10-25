@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import HeroFlow from '../components/HeroFlow.astro';
-import { SITE, SOCIALS } from '../consts';
+import HeroIntro from '../components/HeroIntro.astro';
 import { useTranslations, type Lang } from '../i18n/ui';
 
 interface Props {
@@ -15,32 +15,6 @@ const t = useTranslations(lang);
 <BaseLayout lang={lang} title={t.about.title} description={t.about.lead}>
   <div class="home-layout">
     <HeroFlow />
-    <div class="home-main">
-      <section class="hero-intro">
-        <div class="hero-header">
-          <h1 class="hero-name">{SITE.name}</h1>
-        </div>
-
-        <div class="hero-code">
-          <p class="hero-code-line hero-bio">{t.about.lead}</p>
-        </div>
-
-        <div class="social-bar" aria-label={t.home.socialLinks}>
-          {
-            SOCIALS.map((social) => (
-              <a
-                href={social.href}
-                class="icon-btn"
-                target={social.href.startsWith('http') ? '_blank' : undefined}
-                rel="noreferrer"
-              >
-                <span>{social.label}</span>
-                <span aria-hidden="true">↗</span>
-              </a>
-            ))
-          }
-        </div>
-      </section>
-    </div>
+    <HeroIntro lang={lang} />
   </div>
 </BaseLayout>
