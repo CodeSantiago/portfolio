@@ -1,0 +1,241 @@
+<div class="hero-flow" aria-hidden="true">
+  <canvas class="hero-flow-canvas"></canvas>
+</div>
+
+<script>
+  type Particle = {
+    x: number;
+    y: number;
+    vx: number;
+    vy: number;
+    radius: number;
+    tone: 'accent' | 'info' | 'ink';
+  };
+
+  let activeCleanup: (() => void) | null = null;
+
+  const readColors = () => {
+    const styles = getComputedStyle(document.documentElement);
+    return {
+      accent: styles.getPropertyValue('--accent').trim() || '#b04a2f',
+      info: styles.getPropertyValue('--info').trim() || '#2b5bd7',
+      line: styles.getPropertyValue('--hero-flow-line').trim() || '#5a554e',
+      ink: styles.getPropertyValue('--hero-flow-node-ink').trim() || '#1c1a17',
+      reduced: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+    };
+  };
+
+  const createFlow = (canvas: HTMLCanvasElement) => {
+    const ctx = canvas.getContext('2d');
+    const container = canvas.parentElement;
+    if (!ctx || !container) return () => {};
+
+    let width = 1;
+    let height = 1;
+    let dpr = 1;
+    let frame = 0;
+    let running = true;
+    let particles: Particle[] = [];
+    let colors = readColors();
+    const mouse = { x: null as number | null, y: null as number | null, radius: 110 };
+
+    const initParticles = () => {
+      const count = Math.min(85, Math.max(28, Math.round((width * height) / 9000)));
+      particles = Array.from({ length: count }, () => {
+        const roll = Math.random();
+        const tone: Particle['tone'] = roll < 0.15 ? 'info' : roll < 0.28 ? 'ink' : 'accent';
+
+        return {
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.22,
+          vy: (Math.random() - 0.5) * 0.22,
+          radius: tone === 'accent' ? Math.random() * 1.5 + 1.2 : Math.random() * 1.2 + 0.7,
+          tone,
+        };
+      });
+    };
+
+    const linkDistance = () => Math.min(150, Math.max(90, width * 0.22));
+
+    const draw = () => {
+      ctx.clearRect(0, 0, width, height);
+      const maxDistance = linkDistance();
+      const maxDistanceSq = maxDistance * maxDistance;
+
+      for (let i = 0; i < particles.length; i++) {
+        const particle = particles[i];
+
+        for (let j = i + 1; j < particles.length; j++) {
+          const other = particles[j];
+          const dx = particle.x - other.x;
+          const dy = particle.y - other.y;
+          const distanceSq = dx * dx + dy * dy;
+          if (distanceSq > maxDistanceSq) continue;
+
+          ctx.globalAlpha = (1 - Math.sqrt(distanceSq) / maxDistance) * 0.38;
+          ctx.strokeStyle = colors.line;
+          ctx.lineWidth = 0.9;
+          ctx.beginPath();
+          ctx.moveTo(particle.x, particle.y);
+          ctx.lineTo(other.x, other.y);
+          ctx.stroke();
+        }
+      }
+
+      for (const particle of particles) {
+        const color =
+          particle.tone === 'info'
+            ? colors.info
+            : particle.tone === 'ink'
+              ? colors.ink
+              : colors.accent;
+        ctx.globalAlpha =
+          particle.tone === 'info' ? 0.82 : particle.tone === 'ink' ? 0.78 : 0.96;
+        ctx.fillStyle = color;
+        ctx.shadowColor = color;
+        ctx.shadowBlur = particle.tone === 'accent' ? 5 : 2;
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.shadowBlur = 0;
+      ctx.globalAlpha = 1;
+    };
+
+    const update = () => {
+      if (!running) return;
+
+      for (const particle of particles) {
+        if (particle.x < 0 || particle.x > width) particle.vx *= -1;
+        if (particle.y < 0 || particle.y > height) particle.vy *= -1;
+
+        particle.x += particle.vx;
+        particle.y += particle.vy;
+
+        if (mouse.x !== null && mouse.y !== null) {
+          const dx = particle.x - mouse.x;
+          const dy = particle.y - mouse.y;
+          const distance = Math.hypot(dx, dy);
+
+          if (distance < mouse.radius && distance > 0.01) {
+            const force = (mouse.radius - distance) / mouse.radius;
+            particle.x += (dx / distance) * force * 0.9;
+            particle.y += (dy / distance) * force * 0.9;
+          }
+        }
+      }
+
+      draw();
+      if (!colors.reduced) frame = requestAnimationFrame(update);
+    };
+
+    const render = () => {
+      draw();
+    };
+
+    const resize = () => {
+      const rect = container.getBoundingClientRect();
+      width = Math.max(1, rect.width);
+      height = Math.max(1, rect.height);
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      initParticles();
+      if (colors.reduced) render();
+    };
+
+    const onPointerMove = (event: PointerEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+
+      if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
+        mouse.x = x;
+        mouse.y = y;
+      } else {
+        mouse.x = null;
+        mouse.y = null;
+      }
+    };
+
+    const onPointerLeave = () => {
+      mouse.x = null;
+      mouse.y = null;
+    };
+
+    const onThemeChange = () => {
+      colors = readColors();
+      if (colors.reduced) render();
+    };
+
+    const onMotionChange = () => {
+      colors = readColors();
+
+      if (colors.reduced) {
+        cancelAnimationFrame(frame);
+        render();
+      } else {
+        cancelAnimationFrame(frame);
+        update();
+      }
+    };
+
+    const resizeObserver = new ResizeObserver(resize);
+    resizeObserver.observe(container);
+
+    const themeObserver = new MutationObserver(onThemeChange);
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme'],
+    });
+
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    motionQuery.addEventListener('change', onMotionChange);
+    window.addEventListener('pointermove', onPointerMove, { passive: true });
+    window.addEventListener('pointerleave', onPointerLeave);
+
+    resize();
+    if (!colors.reduced) update();
+
+    return () => {
+      running = false;
+      cancelAnimationFrame(frame);
+      resizeObserver.disconnect();
+      themeObserver.disconnect();
+      motionQuery.removeEventListener('change', onMotionChange);
+      window.removeEventListener('pointermove', onPointerMove);
+      window.removeEventListener('pointerleave', onPointerLeave);
+      canvas.dataset.flowBound = 'false';
+      ctx.clearRect(0, 0, width, height);
+    };
+  };
+
+  const setupHeroFlow = () => {
+    const canvas = document.querySelector<HTMLCanvasElement>('.hero-flow-canvas');
+    if (!canvas) {
+      activeCleanup?.();
+      activeCleanup = null;
+      return;
+    }
+
+    if (canvas.dataset.flowBound === 'true') return;
+
+    activeCleanup?.();
+    canvas.dataset.flowBound = 'true';
+    activeCleanup = createFlow(canvas);
+  };
+
+  setupHeroFlow();
+  document.addEventListener('astro:page-load', setupHeroFlow);
+  document.addEventListener('astro:before-swap', () => {
+    activeCleanup?.();
+    activeCleanup = null;
+  });
+</script>

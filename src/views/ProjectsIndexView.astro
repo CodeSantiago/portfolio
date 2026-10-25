@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { useTranslations, type Lang } from '../i18n/ui';
+import { getProjects } from '../lib/content';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const projects = await getProjects(lang);
+---
+
+<BaseLayout lang={lang} title={t.projects.title} description={t.projects.lead}>
+  <header class="page-header">
+    <p class="section-kicker">{t.projects.kicker}</p>
+    <h1 class="page-title">{t.projects.title}</h1>
+    <p class="page-lead">{t.projects.lead}</p>
+  </header>
+
+  <div class="project-list">
+    {projects.map((p, index) => <ProjectCard project={p} index={index} lang={lang} />)}
+  </div>
+</BaseLayout>
+
+<script>
+  const openProjectFromHash = () => {
+    const id = decodeURIComponent(window.location.hash.slice(1));
+    const entry = document.getElementById(id);
+
+    if (entry instanceof HTMLDetailsElement) {
+      entry.open = true;
+      requestAnimationFrame(() => entry.scrollIntoView({ block: 'start' }));
+    }
+  };
+
+  openProjectFromHash();
+  window.addEventListener('hashchange', openProjectFromHash);
+  document.addEventListener('astro:page-load', openProjectFromHash);
+</script>

@@ -1,0 +1,30 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostItem from '../components/PostItem.astro';
+import { localizePath, useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  tag: string;
+  posts: CollectionEntry<'posts'>[];
+}
+
+const { lang, tag, posts } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<BaseLayout lang={lang} title={`#${tag}`} description={`Posts — #${tag}`}>
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href={localizePath('/posts', lang)}>{t.posts.backToPosts}</a>
+  </nav>
+
+  <header class="page-header">
+    <p class="section-kicker">{t.posts.topicArchive}</p>
+    <h1 class="page-title">#{tag}</h1>
+  </header>
+
+  <ul class="post-list">
+    {posts.map((post) => <PostItem post={post} lang={lang} />)}
+  </ul>
+</BaseLayout>

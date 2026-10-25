@@ -1,0 +1,38 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getLangFromUrl, localizePath, useTranslations, type Lang } from '../i18n/ui';
+import { cleanSlug, formatDate, readingTime } from '../lib/content';
+
+interface Props {
+  post: CollectionEntry<'posts'>;
+  lang?: Lang;
+}
+
+const { post } = Astro.props;
+const lang = Astro.props.lang ?? getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const { title, description, date, draft, tags } = post.data;
+const slug = cleanSlug(post.id);
+---
+
+<li class="post-item">
+  <div class="post-item-header">
+    <div class="post-item-title-wrap">
+      <a href={localizePath(`/posts/${slug}`, lang)} class="post-item-title">{title}</a>
+      {draft && <span class="badge badge-draft">{t.posts.draft}</span>}
+    </div>
+    <div class="post-item-meta">
+      <time datetime={date.toISOString()}>{formatDate(date, lang)}</time>
+      <span class="meta-sep">·</span>
+      <span>{readingTime(post.body, lang)}</span>
+    </div>
+  </div>
+  <p class="post-item-desc">{description}</p>
+  {
+    tags.length > 0 && (
+      <ul class="tags post-item-tags">
+        {tags.map((tag) => <li>#{tag}</li>)}
+      </ul>
+    )
+  }
+</li>

@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<BaseLayout lang={lang} title={t.library.title} description={t.library.soonNote}>
+  <header class="page-header">
+    <p class="section-kicker">{t.library.kicker}</p>
+    <h1 class="page-title">{t.library.title}</h1>
+  </header>
+
+  <div class="page-placeholder">
+    <p class="page-placeholder-title">{t.library.soon}</p>
+    <p class="page-placeholder-note">{t.library.soonNote}</p>
+  </div>
+</BaseLayout>

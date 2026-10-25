@@ -1,0 +1,93 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE, SOCIALS } from '../consts';
+import { useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const socialLabels: Record<string, string> = {
+  GitHub: '@CodeSantiago',
+  LinkedIn: 'Santiago López',
+};
+---
+
+<BaseLayout lang={lang} title={t.contact.title} description={t.contact.lead}>
+  <header class="page-header">
+    <p class="section-kicker">{t.contact.kicker}</p>
+    <h1 class="page-title">{t.contact.title}</h1>
+    <p class="page-lead">{t.contact.lead}</p>
+  </header>
+
+  <ul class="contact-list">
+    <li class="contact-row">
+      <span class="contact-label">{t.contact.emailLabel}</span>
+      <span class="contact-value">{SITE.email}</span>
+      <button
+        type="button"
+        class="contact-copy"
+        data-copy-email={SITE.email}
+        data-copied-label={t.contact.copied}
+      >
+        {t.contact.copyEmail}
+      </button>
+    </li>
+
+    {
+      SOCIALS.map((social) => (
+        <li class="contact-row">
+          <span class="contact-label">{social.label}</span>
+          <a class="contact-value" href={social.href} target="_blank" rel="noreferrer">
+            {socialLabels[social.label] ?? social.label}
+            <span class="contact-arrow" aria-hidden="true">↗</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</BaseLayout>
+
+<script>
+  const copyText = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch {
+      const field = document.createElement('textarea');
+      field.value = text;
+      field.setAttribute('readonly', '');
+      field.style.position = 'fixed';
+      field.style.opacity = '0';
+      document.body.appendChild(field);
+      field.select();
+      const copied = document.execCommand('copy');
+      field.remove();
+      return copied;
+    }
+  };
+
+  const setupCopyButtons = () => {
+    document.querySelectorAll<HTMLButtonElement>('[data-copy-email]').forEach((button) => {
+      if (button.dataset.copyBound === 'true') return;
+      button.dataset.copyBound = 'true';
+      const original = button.textContent;
+
+      button.addEventListener('click', async () => {
+        const copied = await copyText(button.dataset.copyEmail ?? '');
+        if (!copied) return;
+
+        button.textContent = button.dataset.copiedLabel ?? original;
+        window.setTimeout(() => {
+          button.textContent = original;
+        }, 1800);
+      });
+    });
+  };
+
+  setupCopyButtons();
+  document.addEventListener('astro:page-load', setupCopyButtons);
+</script>

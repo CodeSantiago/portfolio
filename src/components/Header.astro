@@ -1,0 +1,168 @@
+---
+import { SITE } from '../consts';
+import {
+  getLangFromUrl,
+  localizePath,
+  switchLangPath,
+  useTranslations,
+  type Lang,
+} from '../i18n/ui';
+
+interface Props {
+  lang?: Lang;
+}
+
+const lang = Astro.props.lang ?? getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const navItems = [
+  { href: localizePath('/about', lang), base: '/about', label: t.nav.about },
+  { href: localizePath('/projects', lang), base: '/projects', label: t.nav.projects },
+  { href: localizePath('/posts', lang), base: '/posts', label: t.nav.posts },
+  { href: localizePath('/library', lang), base: '/library', label: t.nav.library },
+  { href: localizePath('/contact', lang), base: '/contact', label: t.nav.contact },
+];
+
+const strippedPath = Astro.url.pathname.replace(/^\/es(?=\/|$)/, '').replace(/\/$/, '') || '/';
+const isActive = (base: string) =>
+  base === '/about' && strippedPath === '/'
+    ? true
+    : strippedPath.startsWith(base);
+const isCurrentPage = (base: string) => strippedPath === base;
+
+const enPath = switchLangPath(Astro.url.pathname, 'en');
+const esPath = switchLangPath(Astro.url.pathname, 'es');
+---
+
+<header class="site-header-wrap">
+  <div class="site-header">
+    <a href={localizePath('/', lang)} class="brand" aria-label={`${SITE.name} — ${t.nav.home}`}>
+      <span class="brand-text">
+        {SITE.name.split(' ')[0]} <span class="brand-separator" aria-hidden="true">•</span>{' '}
+        {t.brandDescriptor}
+      </span>
+    </a>
+
+    <nav aria-label="Main navigation" class="site-nav">
+      <ul>
+        {
+          navItems.map((item) => {
+            const active = item.base ? isActive(item.base) : false;
+            return (
+              <li>
+                <a
+                  href={item.href}
+                  class:list={['nav-link', { 'is-active': active }]}
+                  aria-current={item.base && isCurrentPage(item.base) ? 'page' : undefined}
+                >
+                  {item.label}
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </nav>
+
+    <div class="header-right">
+      <div class="lang-switch" role="group" aria-label="Language selector">
+        <a
+          href={enPath}
+          class:list={['lang-option', { 'is-active': lang === 'en' }]}
+          aria-current={lang === 'en' ? 'true' : undefined}
+          hreflang="en"
+        >
+          EN
+        </a>
+        <a
+          href={esPath}
+          class:list={['lang-option', { 'is-active': lang === 'es' }]}
+          aria-current={lang === 'es' ? 'true' : undefined}
+          hreflang="es"
+        >
+          ES
+        </a>
+      </div>
+
+      <button
+        type="button"
+        class="theme-toggle"
+        id="theme-toggle"
+        aria-label={t.themeToggle}
+        title={t.themeToggle}
+        aria-pressed="false"
+      >
+        <svg
+          class="theme-icon theme-icon-moon"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+        </svg>
+        <svg
+          class="theme-icon theme-icon-sun"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.42 1.42M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<script>
+  const getPreferredTheme = () => {
+    try {
+      const stored = localStorage.getItem('theme');
+      if (stored === 'light' || stored === 'dark') return stored;
+    } catch {}
+
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  };
+
+  const applyTheme = () => {
+    document.documentElement.dataset.theme = getPreferredTheme();
+  };
+
+  const setupThemeToggle = () => {
+    applyTheme();
+    const root = document.documentElement;
+    const toggle = document.getElementById('theme-toggle');
+    if (!(toggle instanceof HTMLButtonElement) || toggle.dataset.themeBound === 'true') return;
+
+    toggle.dataset.themeBound = 'true';
+    const sync = () => toggle.setAttribute('aria-pressed', String(root.dataset.theme === 'dark'));
+    sync();
+
+    toggle.addEventListener('click', () => {
+      const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+      root.dataset.theme = next;
+
+      try {
+        localStorage.setItem('theme', next);
+      } catch {}
+
+      sync();
+    });
+  };
+
+  document.addEventListener('astro:after-swap', applyTheme);
+  setupThemeToggle();
+  document.addEventListener('astro:page-load', setupThemeToggle);
+</script>

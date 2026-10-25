@@ -1,0 +1,20 @@
+---
+import ProjectDetailView from '../../views/ProjectDetailView.astro';
+import { cleanSlug, getProjects } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const projects = await getProjects('en');
+  return projects.map((project, i) => ({
+    params: { slug: cleanSlug(project.id) },
+    props: {
+      project,
+      prev: projects[i - 1] ?? null,
+      next: projects[i + 1] ?? null,
+    },
+  }));
+}
+
+const { project, prev, next } = Astro.props;
+---
+
+<ProjectDetailView lang="en" project={project} prev={prev} next={next} />

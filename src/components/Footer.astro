@@ -1,0 +1,35 @@
+---
+import { SITE, SOCIALS } from '../consts';
+import { getLangFromUrl, useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang?: Lang;
+}
+
+const lang = Astro.props.lang ?? getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<footer class="site-footer-wrap">
+  <div class="site-footer">
+    <div class="footer-left">
+      <p class="footer-brand">{SITE.name}</p>
+      <p class="footer-copy">
+        &copy; {new Date().getFullYear()} · {t.footer.copy}
+      </p>
+    </div>
+
+    <ul class="footer-links">
+      {
+        SOCIALS.map((s) => (
+          <li>
+            <a href={s.href} target={s.href.startsWith('http') ? '_blank' : undefined} rel="noreferrer">
+              {s.label}
+            </a>
+          </li>
+        ))
+      }
+      <li><a href="/rss.xml">RSS</a></li>
+    </ul>
+  </div>
+</footer>

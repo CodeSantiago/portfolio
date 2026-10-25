@@ -1,0 +1,136 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { localizePath, useTranslations, type Lang } from '../i18n/ui';
+import { cleanSlug } from '../lib/content';
+
+interface Props {
+  lang: Lang;
+  project: CollectionEntry<'projects'>;
+  prev: CollectionEntry<'projects'> | null;
+  next: CollectionEntry<'projects'> | null;
+}
+
+const { lang, project, prev, next } = Astro.props;
+const t = useTranslations(lang);
+const { title, summary, details, highlights, year, status, statusNote, stack, repo, demo, metrics } =
+  project.data;
+const normalize = (value: string) => value.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+const showStatusNote = statusNote
+  ? !normalize(statusNote).startsWith(normalize(t.status[status]))
+  : false;
+const showBody = (project.body ?? '').trim().length > 240;
+const { Content } = await render(project);
+---
+
+<BaseLayout lang={lang} title={title} description={summary} type="article">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href={localizePath('/projects', lang)}>{t.projects.backToProjects}</a>
+  </nav>
+
+  <article class="case-study">
+    <header class="case-study-header">
+      <div class="project-card-meta">
+        <span class={`status-pill status-${status}`}>
+          <span class="status-indicator" aria-hidden="true"></span>
+          {t.status[status]}
+        </span>
+        <span class="project-year">{year}</span>
+        {showStatusNote && statusNote && <span class="meta">· {statusNote}</span>}
+      </div>
+
+      <h1 class="page-title">{title}</h1>
+      <p class="page-lead">{summary}</p>
+
+      {
+        (repo || demo) && (
+          <div class="action-row">
+            {repo && (
+              <a href={repo} class="btn btn-primary" target="_blank" rel="noreferrer">
+                {t.projects.viewCode}
+              </a>
+            )}
+            {demo && (
+              <a href={demo} class="btn btn-secondary" target="_blank" rel="noreferrer">
+                {t.projects.liveDemo}
+              </a>
+            )}
+          </div>
+        )
+      }
+    </header>
+
+    {
+      metrics.length > 0 && (
+        <ul class="metrics-banner" aria-label={t.projects.metricsLabel}>
+          {metrics.map((m) => (
+            <li>
+              <strong>{m.value}</strong>
+              <span>{m.label}</span>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+
+    {
+      details && (
+        <section class="project-section">
+          <h2 class="eyebrow-heading">{t.projects.architectureLabel}</h2>
+          <p>{details}</p>
+        </section>
+      )
+    }
+
+    {
+      highlights.length > 0 && (
+        <section class="project-section">
+          <h2 class="eyebrow-heading">{t.projects.highlightsLabel}</h2>
+          <ul class="project-highlights">
+            {highlights.map((h) => <li>{h}</li>)}
+          </ul>
+        </section>
+      )
+    }
+
+    {
+      showBody && (
+        <div class="prose">
+          <Content />
+        </div>
+      )
+    }
+
+    {
+      stack.length > 0 && (
+        <section class="stack-section">
+          <h2 class="project-entry-label">{t.projects.stackLabel}</h2>
+          <p class="stack-inline">{stack.join(' · ')}</p>
+        </section>
+      )
+    }
+  </article>
+
+  <nav class="pager-nav" aria-label={t.projects.moreProjects}>
+    {
+      prev ? (
+        <a href={localizePath(`/projects/${cleanSlug(prev.id)}`, lang)} class="pager-card">
+          <span class="pager-label">{t.projects.prevProject}</span>
+          <strong class="pager-title">{prev.data.title}</strong>
+        </a>
+      ) : (
+        <span />
+      )
+    }
+    {
+      next ? (
+        <a href={localizePath(`/projects/${cleanSlug(next.id)}`, lang)} class="pager-card is-next">
+          <span class="pager-label">{t.projects.nextProject}</span>
+          <strong class="pager-title">{next.data.title}</strong>
+        </a>
+      ) : (
+        <span />
+      )
+    }
+  </nav>
+</BaseLayout>

@@ -1,0 +1,94 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { localizePath, useTranslations, type Lang } from '../i18n/ui';
+import { cleanSlug, formatDate, readingTime, slugifyTag } from '../lib/content';
+
+interface Props {
+  lang: Lang;
+  post: CollectionEntry<'posts'>;
+  newer: CollectionEntry<'posts'> | null;
+  older: CollectionEntry<'posts'> | null;
+}
+
+const { lang, post, newer, older } = Astro.props;
+const t = useTranslations(lang);
+const { title, description, date, updated, tags, draft } = post.data;
+const { Content, headings } = await render(post);
+const toc = headings.filter((h) => h.depth <= 3);
+---
+
+<BaseLayout lang={lang} title={title} description={description} type="article">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href={localizePath('/posts', lang)}>{t.posts.backToPosts}</a>
+  </nav>
+
+  <article class="case-study">
+    <header class="case-study-header">
+      <div class="post-item-meta">
+        <time datetime={date.toISOString()}>{formatDate(date, lang)}</time>
+        {updated && <span> · {t.posts.updated} {formatDate(updated, lang)}</span>}
+        <span class="meta-sep">·</span>
+        <span>{readingTime(post.body, lang)}</span>
+        {draft && <span class="badge badge-draft">{t.posts.draft}</span>}
+      </div>
+
+      <h1 class="page-title">{title}</h1>
+      <p class="page-lead">{description}</p>
+
+      {
+        tags.length > 0 && (
+          <ul class="tags tags-lg">
+            {tags.map((tag) => (
+              <li>
+                <a href={localizePath(`/posts/tags/${slugifyTag(tag)}`, lang)}>#{tag}</a>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </header>
+
+    {
+      toc.length > 2 && (
+        <details class="toc-bar">
+          <summary class="toc-label">{t.posts.toc}</summary>
+          <ul>
+            {toc.map((h) => (
+              <li style={`margin-left: ${(h.depth - 2) * 1}rem`}>
+                <a href={`#${h.slug}`}>{h.text}</a>
+              </li>
+            ))}
+          </ul>
+        </details>
+      )
+    }
+
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+
+  <nav class="pager-nav" aria-label="More posts">
+    {
+      older ? (
+        <a href={localizePath(`/posts/${cleanSlug(older.id)}`, lang)} class="pager-card">
+          <span class="pager-label">{t.posts.olderPost}</span>
+          <strong class="pager-title">{older.data.title}</strong>
+        </a>
+      ) : (
+        <span />
+      )
+    }
+    {
+      newer ? (
+        <a href={localizePath(`/posts/${cleanSlug(newer.id)}`, lang)} class="pager-card is-next">
+          <span class="pager-label">{t.posts.newerPost}</span>
+          <strong class="pager-title">{newer.data.title}</strong>
+        </a>
+      ) : (
+        <span />
+      )
+    }
+  </nav>
+</BaseLayout>

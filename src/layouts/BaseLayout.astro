@@ -1,0 +1,88 @@
+---
+import Analytics from '@vercel/analytics/astro';
+import { ClientRouter, fade } from 'astro:transitions';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE } from '../consts';
+import { getLangFromUrl, switchLangPath, useTranslations, type Lang } from '../i18n/ui';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  type?: 'website' | 'article';
+  lang?: Lang;
+}
+
+const lang = Astro.props.lang ?? getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const { title, description = t.siteDescription, type = 'website' } = Astro.props;
+const fullTitle = title ? `${title} — ${SITE.name}` : `${SITE.name} — ${SITE.role}`;
+const normalizedPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
+const isEditorialHeroPage =
+  normalizedPath === '/' ||
+  normalizedPath === '/es' ||
+  normalizedPath === '/about' ||
+  normalizedPath === '/es/about';
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const enAlt = new URL(switchLangPath(Astro.url.pathname, 'en'), Astro.site);
+const esAlt = new URL(switchLangPath(Astro.url.pathname, 'es'), Astro.site);
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script is:inline>
+      (() => {
+        try {
+          const stored = localStorage.getItem('theme');
+          const theme =
+            stored === 'light' || stored === 'dark'
+              ? stored
+              : window.matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'dark'
+                : 'light';
+          document.documentElement.dataset.theme = theme;
+        } catch {
+          document.documentElement.dataset.theme = 'light';
+        }
+      })();
+    </script>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="en" href={enAlt} />
+    <link rel="alternate" hreflang="es" href={esAlt} />
+    <link rel="alternate" hreflang="x-default" href={enAlt} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="alternate" type="application/rss+xml" title={`${SITE.name} — Posts`} href="/rss.xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400&family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+    <ClientRouter />
+    <Analytics />
+  </head>
+  <body>
+    <a href="#content" class="skip-link">{t.skipToContent}</a>
+    <Header lang={lang} />
+    <main
+      id="content"
+      class:list={['site-main', { 'editorial-hero-main': isEditorialHeroPage }]}
+      transition:animate={fade({ duration: '120ms' })}
+    >
+      <slot />
+    </main>
+    {!isEditorialHeroPage && <Footer lang={lang} />}
+  </body>
+</html>
