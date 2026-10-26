@@ -12,7 +12,12 @@ interface Props {
 const { project, index = 0 } = Astro.props;
 const lang = Astro.props.lang ?? getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const { title, summary, details, highlights, year, status, stack, repo, demo, metrics } = project.data;
+const { title, summary, details, highlights, year, status, statusNote, stack, repo, demo, metrics } =
+  project.data;
+const normalize = (value: string) => value.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+const showStatusNote = statusNote
+  ? !normalize(statusNote).startsWith(normalize(t.status[status]))
+  : false;
 const slug = cleanSlug(project.id);
 const num = String(index + 1).padStart(2, '0');
 const projectPath = localizePath(`/projects/${slug}`, lang);
@@ -26,6 +31,7 @@ const projectPath = localizePath(`/projects/${slug}`, lang);
       <span class="project-entry-status">
         <span class="status-indicator" aria-hidden="true"></span>
         {t.status[status]}
+        {showStatusNote && statusNote && <span class="status-note">· {statusNote}</span>}
       </span>
     </span>
     <span class="project-entry-title" role="heading" aria-level="2">{title}</span>

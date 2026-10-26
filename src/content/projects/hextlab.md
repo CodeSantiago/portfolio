@@ -9,8 +9,10 @@ highlights:
   - "Prompt playground: edit a prompt, re-run the flow, and compare the resulting responses."
   - "Local-first: runs on your machine, with the full execution history available for inspection."
 year: 2026
-status: in-development
+status: open-source
+statusNote: "in development"
 stack: ["A2A protocol", "Multi-agent orchestration", "Local-first", "Prompt playground", "LLM observability", "Token & cost tracking"]
+repo: https://github.com/CodeSantiago/hextlab
 current: true
 order: 3
 ---

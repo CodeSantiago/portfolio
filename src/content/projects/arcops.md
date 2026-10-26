@@ -9,7 +9,7 @@ highlights:
   - "Integrations: CLI, REST API, MCP server, TUI dashboard, and Docker for GPU-free deploys."
 year: 2026
 status: open-source
-statusNote: "open source"
+statusNote: "in development"
 stack: ["Python", "Qwen2.5-7B", "QLoRA 4-bit", "HuggingFace Transformers", "PEFT", "TRL", "FastAPI", "MCP", "LocalStack", "Docker"]
 repo: https://github.com/CodeSantiago/ArcOps
 featured: true
