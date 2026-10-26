@@ -4,7 +4,7 @@ summary: "Cloud engineers lose hours writing CLI commands and API payloads — a
 details: "A Qwen2.5-7B fine-tuned with QLoRA (4-bit) that outputs only the exact JSON for AWS API execution — validated by a safety layer (schema validation, cost estimation, security policies) and running 100% locally against LocalStack or real AWS."
 highlights:
   - "Fine-tuned on 10,854 curated synthetic examples with noise samples to prevent hallucinations — trained on a single RTX 5070 12GB."
-  - "100% tool-selection accuracy, 82.8% field-level precision, 0% hallucinations in production (blocked by the safety layer)."
+  - "100% tool-selection accuracy and 82.8% field-level precision in evaluation."
   - "Fully local: no data leaves the machine; the model generalizes to parameter combinations never seen in training."
   - "Integrations: CLI, REST API, MCP server, TUI dashboard, and Docker for GPU-free deploys."
 year: 2026

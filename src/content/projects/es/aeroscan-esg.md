@@ -6,7 +6,7 @@ highlights:
   - "Pipeline real de datos satelitales: descarga automatizada de Sentinel-5P, parseo de NetCDF y almacenamiento diario de columnas de metano en SQLite."
   - "Sensibilidad configurable mediante slider sigma — permite ajustar el compromiso entre falsos positivos y falsos negativos según el umbral de cumplimiento."
   - "Mapa interactivo con capas base vectoriales/satelitales, zonas de alerta por color (amarillo/naranja/rojo) y exportación de reportes CSV/PDF."
-  - "Desplegado en Vercel (frontend) + Render (API backend) — despliegue real en producción para una demo técnica."
+  - "Desplegado en Vercel (frontend) + Render (API backend) — una demo desplegada, no un sistema en producción."
 year: 2026
 status: demo
 statusNote: "demo técnica"

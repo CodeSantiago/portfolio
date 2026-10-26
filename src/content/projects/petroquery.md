@@ -4,7 +4,7 @@ summary: "Field engineers in Vaca Muerta need instant answers from dense drillin
 details: "A six-stage typed pipeline for safety-critical RAG: classification, hybrid retrieval, reranking, schema-enforced generation, numeric validation, and safety overlays."
 highlights:
   - "Numeric validation cross-checks every figure against retrieved chunks — the system abstains rather than inventing a spec."
-  - "4-level traceability (document → page → section → table/figure), as required by Argentine IAPG regulations."
+  - "4-level traceability (document → page → section → table/figure)."
   - "Hybrid retrieval: e5-large vectors + PostgreSQL FTS fused with RRF, then cross-encoder reranking — built for Spanish prose mixed with English acronyms (BOP, H2S, PPE)."
   - "Structured generation via Instructor + Pydantic: the LLM cannot return malformed output."
 year: 2026

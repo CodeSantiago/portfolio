@@ -6,7 +6,7 @@ highlights:
   - "Real satellite data pipeline: automated Sentinel-5P download, NetCDF parsing, and daily methane column storage in SQLite."
   - "Configurable sensitivity via sigma slider — users tune false-positive vs false-negative tradeoff for their compliance threshold."
   - "Interactive map with vector/satellite basemaps, color-coded alert zones (yellow/orange/red), and CSV/PDF report export."
-  - "Deployed on Vercel (frontend) + Render (backend API) — real production deployment for a technical demo."
+  - "Deployed on Vercel (frontend) + Render (backend API) — a deployed demo, not a production system."
 year: 2026
 status: demo
 statusNote: "technical demo"

@@ -4,7 +4,7 @@ summary: "Los ingenieros de campo en Vaca Muerta necesitan respuestas inmediatas
 details: "Un pipeline tipado de seis etapas para RAG en industrias críticas: clasificación, recuperación híbrida, reranking, generación forzada por esquema, validación numérica y alertas de seguridad."
 highlights:
   - "Validación numérica que cruza cada cifra contra los fragmentos recuperados — el sistema se abstiene antes de inventar una especificación."
-  - "Trazabilidad en 4 niveles (documento → página → sección → tabla/figura), según lo requerido por normativas del IAPG en Argentina."
+  - "Trazabilidad en 4 niveles (documento → página → sección → tabla/figura)."
   - "Recuperación híbrida: vectores e5-large + PostgreSQL FTS fusionados con RRF y reranking con cross-encoder — diseñado para prosa en español mezclada con siglas en inglés (BOP, H2S, PPE)."
   - "Generación estructurada vía Instructor + Pydantic: el LLM no puede devolver salidas malformadas."
 year: 2026
