@@ -6,7 +6,7 @@ tags: ["Physical AI", "Humanoid RL", "NVIDIA Isaac", "Robotics", "PPO"]
 kind: technical
 ---
 
-Physical AI is intelligence that leaves the screen and acts in the physical world. It is frontier technology, and this log documents the MAIN project: a working pipeline for multipurpose physical AI, with numbers, logs, and the failures included.
+Physical AI is intelligence that leaves the screen and acts in the physical world. It is frontier technology, and this log documents AustralVant: a working pipeline for multipurpose physical AI, with numbers, logs, and the failures included.
 
 This is the first entry.
 

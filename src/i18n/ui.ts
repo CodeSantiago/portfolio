@@ -79,9 +79,9 @@ export const UI = {
       nextProject: 'Next Project →',
     },
     posts: {
-      kicker: 'MAIN Project · Field Notes',
+      kicker: 'AustralVant · Field Notes',
       title: 'Posts',
-      lead: 'Dispatches from the MAIN project: training logs, metrics, failures, and engineering decisions in physical AI.',
+      lead: 'Dispatches from AustralVant: training logs, metrics, failures, and engineering decisions in physical AI.',
       kinds: {
         technical: 'Technical',
         essay: 'Essay',
@@ -194,9 +194,9 @@ export const UI = {
       nextProject: 'Siguiente Proyecto →',
     },
     posts: {
-      kicker: 'Proyecto MAIN · Bitácora',
+      kicker: 'AustralVant · Bitácora',
       title: 'Posts',
-      lead: 'Despachos desde el proyecto MAIN: registros de entrenamiento, métricas, fallas y decisiones de ingeniería en IA física.',
+      lead: 'Despachos desde AustralVant: registros de entrenamiento, métricas, fallas y decisiones de ingeniería en IA física.',
       kinds: {
         technical: 'Técnico',
         essay: 'Ensayo',

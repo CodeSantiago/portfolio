@@ -6,7 +6,7 @@ tags: ["IA física", "RL para humanoides", "NVIDIA Isaac", "Robótica", "PPO"]
 kind: technical
 ---
 
-La IA física es inteligencia que sale de la pantalla y actúa en el mundo físico. Es tecnología de frontera, y esta bitácora documenta el proyecto MAIN: un pipeline en funcionamiento para IA física multipropósito, con números, registros y las fallas incluidas.
+La IA física es inteligencia que sale de la pantalla y actúa en el mundo físico. Es tecnología de frontera, y esta bitácora documenta AustralVant: un pipeline en funcionamiento para IA física multipropósito, con números, registros y las fallas incluidas.
 
 Esta es la primera entrada.
 
