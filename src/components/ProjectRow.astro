@@ -1,0 +1,57 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getLangFromUrl, localizePath, useTranslations, type Lang } from '../i18n/ui';
+import { cleanSlug } from '../lib/content';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  index?: number;
+  lang?: Lang;
+}
+
+const { project, index = 0 } = Astro.props;
+const lang = Astro.props.lang ?? getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const { title, summary, year, status, statusNote, metrics } = project.data;
+const normalize = (value: string) => value.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+const showStatusNote = statusNote
+  ? !normalize(statusNote).startsWith(normalize(t.status[status]))
+  : false;
+const slug = cleanSlug(project.id);
+const num = String(index + 1).padStart(2, '0');
+const projectPath = localizePath(`/projects/${slug}`, lang);
+const rowMetrics = metrics.slice(0, 3);
+---
+
+<li>
+  <a class="project-row" href={projectPath} data-status={status}>
+    <span class="project-row-index" aria-hidden="true">{num}</span>
+    <div class="project-row-main">
+      <h2 class="project-row-title">
+        {title}
+        <span class="project-row-arrow" aria-hidden="true">↗</span>
+      </h2>
+      <p class="project-row-summary">{summary}</p>
+      {
+        rowMetrics.length > 0 && (
+          <ul class="project-row-metrics" aria-label={t.projects.metricsLabel}>
+            {rowMetrics.map((metric) => (
+              <li>
+                <strong>{metric.value}</strong>
+                <span>{metric.label}</span>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+    <div class="project-row-aside">
+      <span class="project-row-year">{year}</span>
+      <span class="project-row-status">
+        <span class="status-indicator" aria-hidden="true"></span>
+        {t.status[status]}
+      </span>
+      {showStatusNote && statusNote && <span class="project-row-note">{statusNote}</span>}
+    </div>
+  </a>
+</li>

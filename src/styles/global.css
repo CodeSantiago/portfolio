@@ -770,6 +770,14 @@ main.editorial-hero-main {
   white-space: nowrap;
 }
 
+.project-row-note {
+  color: var(--muted);
+  font-size: 0.68rem;
+  line-height: 1.4;
+  text-align: right;
+  text-wrap: balance;
+}
+
 .project-row[data-status='production'] .project-row-status {
   color: var(--status-prod-fg);
 }
@@ -822,6 +830,10 @@ main.editorial-hero-main {
     align-items: center;
     gap: 0.9rem;
     padding-top: 0.2rem;
+  }
+
+  .project-row-note {
+    text-align: left;
   }
 }
 

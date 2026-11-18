@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import ProjectCard from '../components/ProjectCard.astro';
+import ProjectRow from '../components/ProjectRow.astro';
 import { useTranslations, type Lang } from '../i18n/ui';
 import { getProjects } from '../lib/content';
 
@@ -20,23 +20,7 @@ const projects = await getProjects(lang);
     <p class="page-lead">{t.projects.lead}</p>
   </header>
 
-  <div class="project-list">
-    {projects.map((p, index) => <ProjectCard project={p} index={index} lang={lang} />)}
-  </div>
+  <ol class="project-index">
+    {projects.map((project, index) => <ProjectRow project={project} index={index} lang={lang} />)}
+  </ol>
 </BaseLayout>
-
-<script>
-  const openProjectFromHash = () => {
-    const id = decodeURIComponent(window.location.hash.slice(1));
-    const entry = document.getElementById(id);
-
-    if (entry instanceof HTMLDetailsElement) {
-      entry.open = true;
-      requestAnimationFrame(() => entry.scrollIntoView({ block: 'start' }));
-    }
-  };
-
-  openProjectFromHash();
-  window.addEventListener('hashchange', openProjectFromHash);
-  document.addEventListener('astro:page-load', openProjectFromHash);
-</script>

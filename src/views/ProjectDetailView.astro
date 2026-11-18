@@ -30,7 +30,7 @@ const { Content } = await render(project);
 
   <article class="case-study">
     <header class="case-study-header">
-      <div class="project-card-meta">
+      <div class="project-meta">
         <span class={`status-pill status-${status}`}>
           <span class="status-indicator" aria-hidden="true"></span>
           {t.status[status]}
@@ -104,7 +104,7 @@ const { Content } = await render(project);
     {
       stack.length > 0 && (
         <section class="stack-section">
-          <h2 class="project-entry-label">{t.projects.stackLabel}</h2>
+          <h2 class="eyebrow-heading">{t.projects.stackLabel}</h2>
           <p class="stack-inline">{stack.join(' · ')}</p>
         </section>
       )
