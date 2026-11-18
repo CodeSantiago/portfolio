@@ -11,13 +11,14 @@ interface Props {
 const { post } = Astro.props;
 const lang = Astro.props.lang ?? getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const { title, description, date, draft, tags } = post.data;
+const { title, description, date, draft, tags, kind } = post.data;
 const slug = cleanSlug(post.id);
 ---
 
 <li class="post-item">
   <div class="post-item-header">
     <div class="post-item-title-wrap">
+      <span class="badge badge-kind">{t.posts.kinds[kind]}</span>
       <a href={localizePath(`/posts/${slug}`, lang)} class="post-item-title">{title}</a>
       {draft && <span class="badge badge-draft">{t.posts.draft}</span>}
     </div>

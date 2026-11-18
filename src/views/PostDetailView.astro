@@ -13,7 +13,7 @@ interface Props {
 
 const { lang, post, newer, older } = Astro.props;
 const t = useTranslations(lang);
-const { title, description, date, updated, tags, draft } = post.data;
+const { title, description, date, updated, tags, draft, kind } = post.data;
 const { Content, headings } = await render(post);
 const toc = headings.filter((h) => h.depth <= 3);
 ---
@@ -26,6 +26,7 @@ const toc = headings.filter((h) => h.depth <= 3);
   <article class="case-study">
     <header class="case-study-header">
       <div class="post-item-meta">
+        <span class="badge badge-kind">{t.posts.kinds[kind]}</span>
         <time datetime={date.toISOString()}>{formatDate(date, lang)}</time>
         {updated && <span> · {t.posts.updated} {formatDate(updated, lang)}</span>}
         <span class="meta-sep">·</span>

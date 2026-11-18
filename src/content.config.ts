@@ -29,6 +29,7 @@ const posts = defineCollection({
     date: z.coerce.date(),
     updated: z.coerce.date().optional(),
     tags: z.array(z.string()).default([]),
+    kind: z.enum(['technical', 'essay', 'ideas']).default('technical'),
     draft: z.boolean().default(false),
   }),
 });
