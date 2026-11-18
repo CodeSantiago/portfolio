@@ -1,6 +1,6 @@
 ---
 title: "HextLab"
-summary: "Un playground educativo y local para crear agentes A2A que se comunican entre sí. Dispara una ejecución y observa en tiempo real prompts, respuestas, tokens, latencia y estados de cada tarea."
+summary: "Playground local y educativo para construir flujos de agentes A2A que se comunican entre sí. Permite ejecutar el flujo y observar en tiempo real prompts, respuestas, tokens, latencia y estados de cada tarea."
 details: "HextLab es un playground local para construir flujos multi-agente con A2A. Permite conectar agentes en un lienzo visual, disparar la ejecución e inspeccionar cada paso en un panel de trazas: Agent Cards, Tasks, mensajes, prompts, respuestas, uso de tokens, costo, latencia y transiciones de estado. Un playground de prompts permite editar, volver a ejecutar y comparar respuestas, con el historial completo de la ejecución visible."
 highlights:
   - "Lienzo visual de flujo: conecta agentes, dispara la ejecución y sigue el recorrido de punta a punta."

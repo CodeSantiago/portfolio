@@ -1,11 +1,11 @@
 ---
 title: "Production Agent"
-summary: "Los negocios de reservas pierden clientes cuando nadie responde WhatsApp fuera de horario. Este asistente agenda, reprograma y cancela turnos en tiempo real — y ya atiende a ~500 usuarios mensuales."
-details: "Construido para restricciones reales de producción: disponibilidad en tiempo real, flujos seguros de reprogramación, manejo de cancelaciones e interacción nativa en WhatsApp para usuarios no técnicos."
+summary: "Asistente de reservas por WhatsApp para negocios de servicios. Agenda, reprograma y cancela turnos en tiempo real, y opera en producción con ~500 usuarios mensuales."
+details: "Asistente conversacional que gestiona la agenda de un negocio: consulta disponibilidad en tiempo real, agenda, reprograma y cancela turnos. La interacción es nativa en WhatsApp y está pensada para usuarios no técnicos."
 highlights:
   - "Corre en producción atendiendo a ~500 usuarios mensuales por WhatsApp."
-  - "Google Sheets como backend de disponibilidad, para que el negocio siga administrando su agenda en la herramienta que ya conoce."
-  - "Estado conversacional en Redis con manejo estricto de flujo, evitando que el LLM improvise con una reserva real."
+  - "Google Sheets como backend de disponibilidad: el negocio administra su agenda en la herramienta que ya conoce."
+  - "Estado conversacional en Redis con manejo estricto de flujo, para que el LLM no improvise con una reserva real."
   - "Repositorio privado por contrato con el cliente."
 year: 2025
 status: production
