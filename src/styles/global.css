@@ -1385,6 +1385,26 @@ main.editorial-hero-main {
   color: var(--fg);
 }
 
+.prose figure {
+  margin: 1.75rem 0;
+}
+
+.prose figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+}
+
+.prose figcaption {
+  margin-top: 0.6rem;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  line-height: 1.6;
+}
+
 /* ==========================================================================
    Page Placeholder
    ========================================================================== */
